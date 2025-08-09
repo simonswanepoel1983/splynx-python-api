@@ -1,132 +1,69 @@
-# Splynx Python API
+# RocketNet Client Portal
 
-## Installation
+A modern, award-winning client portal for RocketNet customers, powered by FastAPI and a world-class Next.js frontend. Integrates seamlessly with the Splynx BSS/OSS platform.
 
-For install you can use pip or git.
+## Features
 
-#### Git installation
+* View current and historical invoices
+* Monitor data usage in near-real-time
+* Run speed tests directly from the portal
+* Browse and upgrade to faster packages
+* Guided downgrade/cancellation path with retention fee enforcement
 
-Clone repo:
+---
 
-~~~
-git clone https://bitbucket.org/splynx/splynx-python-api.git
-~~~
+## Quick start
 
-Go to repository directory:
+### Prerequisites
 
-~~~
-cd splynx-python-api
-~~~
+* Python 3.11+
+* Node.js 20+
+* Yarn or npm
+* Splynx instance with API access
 
-Run installation:
+### 1. Clone and configure env
 
-~~~
-python3 setup.py install
-~~~
+```bash
+git clone <repo-url>
+cd rocketnet-portal
+cp .env.example .env
+# Edit .env with your Splynx URL and API credentials
+```
 
-#### Pip installation
+### 2. Backend
 
-Run following command for install using pip:
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn backend.main:app --reload --port 8000
+```
 
-~~~
-pip3 install -e git+https://bitbucket.org/splynx/splynx-python-api.git@master#egg=splynx_api
-~~~
+### 3. Frontend
 
-## Usage guide
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-For use Splynx API in python need import splynx_api package.
+Open http://localhost:3000 to explore the portal.
 
-~~~
-from splynx_api.v2 import CustomerRequest, AdministratorRequest, ApiKeyRequest
-~~~
+---
 
-For create API clint instance need set into constructor `Splynx url`, `login` and `password`
-if you want auth as customer or admin and api key and api secret for use api key for auth.
+## Project structure
 
-~~~
-customer = CustomerRequest('http://splynx.domain.com', 'login', 'password')
-admin = AdministratorRequest('http://splynx.domain.com', 'admin', 'password')
-key = ApiKeyRequest('http://splynx.domain.com', 'key', 'sec')
-~~~
+```
+.
+├── backend/          # FastAPI backend + Splynx API wrapper
+├── frontend/         # Next.js 14 app with Material UI design system
+├── requirements.txt  # Python dependencies
+├── README.md         # This file
+└── .env.example      # Environment variable template
+```
 
-For login need get tokens which will be used on API requests.
+---
 
-~~~
-if customer.login():
-    exit("Error while login")
+## License
 
-# here can make api requests
-~~~
-
-For make API requests to Splynx you can use following methods:
-
-+ `api_call_get(path, entity_id, params)` - method for make GET requests to Splynx API. This method has the following arguments:
-  `path` is Splynx API endpoint,
-  `entity_id` id of record for load one record from API,
-  `params` search [params](https://splynx.docs.apiary.io/#introduction/search,-order,-limit,-and-offset) for make search
-  request to API. Usage:
-  ~~~
-  from splynx_api.v2 import ApiKeyRequest
-  
-  key = ApiKeyRequest("http://splynx.domain.com", "key", "sec")
-  if key.login():
-    exit("Error while login")
-  
-  key.api_call_get("admin/customers/customer")
-  print(key.response)
-  key.logout()
-  ~~~
-
-+ `api_call_post(path, params)` - method for make POST requests to Splynx API endpoint. This method has the following arguments:
-  `path` is Splynx API endpoint, `params` params for entity creating, for example
-  [list of customers attributes](https://splynx.docs.apiary.io/#reference/customers/customers-collection/create-a-customer). Usage:
-  ~~~
-  from splynx_api.v2 import ApiKeyRequest
-  
-  key = ApiKeyRequest("http://splynx.domain.com", "key", "sec")
-  if key.login():
-    exit("Error while login")
-  
-  key.api_call_post("admin/customers/customer", {
-      'login': 'test',
-      'name': 'Test User'
-  })
-  print(key.result)
-  key.logout()
-  ~~~
-+ `api_call_put(path, entity_id, params)` - method for make PUT requests to Splynx API. This method has the following arguments:
-  `path` is Splynx API endpoint,
-  `params` fields to update on entity with the id in `entity_id` argument. Usage:
-  ~~~
-  from splynx_api.v2 import ApiKeyRequest
-  
-  key = ApiKeyRequest("http://splynx.domain.com", "key", "sec")
-  if key.login():
-    exit("Error while login")
-  
-  key.api_call_put("admin/customers/customer", 1, {
-      'name': 'Test User'
-  })
-  print(key.result)
-  key.logout()
-  ~~~
-
-+ `api_call_delete(path, entity_id)` - method for make DELETE requests to Splynx API. This method has the following arguments:
-  `path` is Splynx API endpoint, `entity_id` is id of record for delete. Usage:
-  ~~~
-  from splynx_api.v2 import ApiKeyRequest
-  
-  key = ApiKeyRequest("http://splynx.domain.com", "key", "sec")
-  if key.login():
-    exit("Error while login")
-  
-  key.api_call_delete("admin/customers/customer", 1)
-  print(key.result)
-  key.logout()
-  ~~~
-  
-+ `api_call_options(path)` - method for make OPTIONS requests to Splynx API.
-  Method load endpoint `path` attributes list.
-  
-+ `api_call_head(path, params)` - method for make HEAD requests to Splynx API.
-  Method for load records count on endpoint `path` by [search query](https://splynx.docs.apiary.io/#introduction/search,-order,-limit,-and-offset) on `params`.
+MIT © RocketNet
