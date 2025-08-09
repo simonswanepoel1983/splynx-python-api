@@ -1,0 +1,35 @@
+fastapi[all]==0.104.1
+uvicorn[standard]==0.24.0
+sqlalchemy==2.0.23
+alembic==1.12.1
+psycopg2-binary==2.9.9
+redis==5.0.1
+celery==5.3.4
+pydantic==2.5.0
+pydantic-settings==2.1.0
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+requests==2.31.0
+aioredis==2.0.1
+asyncpg==0.29.0
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.2
+python-dotenv==1.0.0
+
+# Splynx API integration
+certifi>=2020.12
+chardet>=4.0
+deprecation>=2.1
+idna>=2.10
+pyparsing>=2.4
+urllib3>=1.26
+
+# Monitoring and logging
+structlog==23.2.0
+sentry-sdk[fastapi]==1.38.0
+
+# Testing
+factory-boy==3.3.0
+faker==20.1.0
